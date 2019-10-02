@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--
+   Created using JS Bin
+   http://jsbin.com
+   ktzainul@amazon.com
+   Copyright (c) 2019 by zainabidkt (http://jsbin.com/pakehud/2/edit)
+   
+   Released under the MIT license: http://jsbin.mit-license.org
+   -->
+
+<html>
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="2 gis gecode format changer">
+
+  <title>2gis Geogocde Extractor</title>
+  <script type="text/javascript">
+       function myFunction() {
+         var str = document.getElementById("geocode").value;  
+         var newstrlong = str.split('/from/')[1].split('%7C')[0];
+           var addmiddleterm = newstrlong.replace("%2C", "middle");
+           
+         document.getElementById("geocodeoutput").innerHTML ="start"+addmiddleterm+"end"  
+         }
+         function takeLat() {
+         var str2 = document.getElementById("geocodeoutput").innerHTML; 
+         var newstrlong2 = str2.split('start')[1].split('mid')[0];
+           var newstrlat2 = str2.split('dle')[1].split('end')[0];
+         document.getElementById("long").innerHTML = newstrlong2  
+         document.getElementById("lat").innerHTML = newstrlat2 
+         
+         }
+          function addcomma() {
+         var commaadd = document.getElementById("comma").innerHTML = ", " 
+         }
+         function toastShow() {
+         var x = document.getElementById("snackbar");
+         x.className = "show";
+         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+         }
+         function copyToClipboard(element) {
+         var $temp = $("<input>");
+         $("body").append($temp);
+         $temp.val($(element).text()).select();
+         document.execCommand("copy");
+         $temp.remove();
+         }
+         function extractEntity () {
+         var str = document.getElementById("geocode").value;
+         var newstr = str.split('%7C')[1].split('%7C')[0];
+         var newstri = newstr.replace(/%20|_/g,' ');
+         var newstrin = newstri.replace(/%26|_/g,'');
+         var newstring = newstrin.replace(/%2C|_/g,'');
+         
+         
+         document.getElementById("entityName").innerHTML = newstring;  
+         }
+         function entityCopy () {
+             var str = document.getElementById("entity").value = document.getElementById("entityName").innerHTML;
+             var str2 = document.getElementById("code").value = document.getElementById("lat").innerHTML+", " +document.getElementById("long").innerHTML;
+             
+         }
+         
+  </script>
+  <script src=
+  "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"
+  type="text/javascript">
+</script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <style id="jsbin-css" type="text/css">
+       p {
+         font-family:'SuisseCond','Arial Narrow',Helvetica,Arial,sans-serif;
+         }
+         input[type=text] {
+         font-family:'SuisseCond','Arial Narrow',Helvetica,Arial,sans-serif;
+         width:100%
+         }
+         button {       background-color: white; 
+         color: black; 
+         border: 2px solid #4CAF50;
+         }
+         .box_code {
+         background-color: #f1f1f1;
+         padding: 0.01em 16px;
+         margin: 20px 0;
+         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+         border: 2px solid #4CAF50;
+         border-radius: 15px;
+         }
+         #snackbar {
+         visibility: hidden;
+         min-width: 250px;
+         margin-left: -125px;
+         background-color: #333;
+         color: #fff;
+         text-align: center;
+         border-radius: 2px;
+         padding: 16px;
+         position: fixed;
+         z-index: 1;
+         left: 50%;
+         bottom: 30px;
+         font-size: 17px;
+         }
+         #snackbar.show {
+         visibility: visible;
+         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+         animation: fadein 0.5s, fadeout 0.5s 2.5s;
+         }
+         @-webkit-keyframes fadein {
+         from {bottom: 0; opacity: 0;} 
+         to {bottom: 30px; opacity: 1;}
+         }
+         @keyframes fadein {
+         from {bottom: 0; opacity: 0;}
+         to {bottom: 30px; opacity: 1;}
+         }
+         @-webkit-keyframes fadeout {
+         from {bottom: 30px; opacity: 1;} 
+         to {bottom: 0; opacity: 0;}
+         }
+         @keyframes fadeout {
+         from {bottom: 30px; opacity: 1;}
+         to {bottom: 0; opacity: 0;}
+         }
+  </style>
+</head>
+
+<body>
+  <div class="box_code">
+    <p>Paste the <a href="https://2gis.ae">2gis Map</a> Geocode,
+    Click on the button 'Get Geocode' and get /from/ geocode copied
+    to the clipboard</p><input type="text" id="geocode">
+
+    <p id="geocodeoutput" style="display:none;"></p>
+
+    <p id="entityName"></p>
+
+    <p id="finalgeocode"><span id="lat"></span><span id=
+    "comma"></span><span id="long"></span></p><button style=
+    "margin-bottom: 16px!important;" onclick=
+    "myFunction();takeLat();addcomma();copyToClipboard('#finalgeocode');extractEntity();toastShow();entityCopy();">Get
+    Geocode</button>
+  </div>
+
+  <div class="box_code" id="form">
+    <form action="form.php" method="post">
+      <table>
+        <tr>
+          <td>
+            <p>Entity Name</p>
+          </td>
+
+          <td><input type="text" name="nameofentity" id=
+          "entity"></td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>Category</p>
+          </td>
+
+          <td><select name="category">
+            <option selected hidden="" value="">
+              Select Category
+            </option>
+
+            <option value="House">
+              House
+            </option>
+
+            <option value="Building">
+              Building
+            </option>
+
+            <option value="Landmark">
+              Landmark
+            </option>
+
+            <option value="Street">
+              Street
+            </option>
+
+            <option value="Community">
+              Community
+            </option>
+
+            <option value="Sub-A">
+              Sub-A
+            </option>
+
+            <option value="Area">
+              Area
+            </option>
+          </select></td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>Area/Sub-Area</p>
+          </td>
+
+          <td><input type="text" name="area_suba" id=
+          "area_subarea"></td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>City</p>
+          </td>
+
+          <td><select name="city">
+            <option selected hidden="" value="">
+              Select City
+            </option>
+
+            <option value="Dubai">
+              Dubai
+            </option>
+
+            <option value="Abu Dhabi">
+              Abu Dhabi
+            </option>
+
+            <option value="Sharjah">
+              Sharjah
+            </option>
+
+            <option value="Al Ain">
+              Al Ain
+            </option>
+
+            <option value="Ajman">
+              Ajman
+            </option>
+
+            <option value="Ras Al Khaimah">
+              Ras Al Khaimah
+            </option>
+
+            <option value="Fujairah">
+              Fujairah
+            </option>
+
+            <option value="Umm al-Quwain">
+              Umm al-Quwain
+            </option>
+          </select></td>
+        </tr>
+
+        <tr>
+          <td>
+            <p>Geocode</p>
+          </td>
+
+          <td><input type="text" name="geocode2" id="code"></td>
+        </tr>
+
+        <tr>
+          <td><input type="submit" value="Submit" style=
+          "margin-bottom: 16px!important;background-color: white; color: black; border: 2px solid #4CAF50;"></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div id="snackbar">
+    Geocode has been copied to clipboard
+  </div>
+</body>
+</html>
